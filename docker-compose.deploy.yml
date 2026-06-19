@@ -1,0 +1,53 @@
+version: "3.9"
+
+services:
+  backend:
+    image: ${BACKEND_IMAGE}
+    container_name: attendance_backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: sqlite:////data/attendance.db
+      MINIO_ENDPOINT: minio:9000
+    ports:
+      - "8010:8010"
+    volumes:
+      - backend_data:/data
+    depends_on:
+      - minio
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8010/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  frontend:
+    image: ${FRONTEND_IMAGE}
+    container_name: attendance_frontend
+    restart: unless-stopped
+    environment:
+      API_BASE_URL: http://backend:8010
+    ports:
+      - "8501:8501"
+    depends_on:
+      - backend
+
+  minio:
+    image: minio/minio:latest
+    container_name: attendance_minio
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ACCESS_KEY:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRET_KEY:-minioadmin}
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+
+volumes:
+  backend_data:
+  minio_data:
+
