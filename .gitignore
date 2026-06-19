@@ -1,0 +1,81 @@
+# Python
+
+**pycache**/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+
+.venv/
+venv/
+env/
+ENV/
+
+# Local configuration and secrets
+
+.env
+.env.*
+!.env.example
+
+# Runtime data
+
+*.db
+*.sqlite
+*.sqlite3
+backend/attendance.db
+storage/
+uploads/
+minio_data/
+
+# Logs
+
+*.log
+*.err
+logs/
+
+# OS and editor files
+
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Large local binaries
+
+minio.exe
+
+# Build output
+
+build/
+dist/
+*.egg-info/
+
+# AI / Face Recognition Models
+
+backend/.insightface/
+*.onnx
+*.zip
+
+# Model caches
+
+.huggingface/
+.cache/
+models/
+
+# OS generated files
+
+desktop.ini
+Thumbs.db
+
+# Python packaging
+
+pip-wheel-metadata/
+
+# Streamlit
+
+.streamlit/secrets.toml
